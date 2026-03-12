@@ -13,7 +13,7 @@ from
 --------------------------------------------------------------------------------------------------------
 
 **B. Apresente apenas o nome, código da linha e extensão da 0.111**
-
+```sql
 select
 	tl.tx_linha,
 	tl.id_linha, 
@@ -24,11 +24,11 @@ join
     dados_mobilidade.tab_itinerario ti
  on ti.id_linha = tl.id_linha
 where tl.cd_linha = '0.111'
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **C. Quais linhas tem a extensão maior que 70km ?**
-
+```sql
 select 
 	cd_linha, tx_linha
 from 
@@ -39,46 +39,48 @@ join
 where 
 	lin_extensao > 70
 order by cd_linha, tx_linha DESC
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **D. Qual é a linha mais curta ?**
-
+```sql
 SELECT MIN (LIN_EXTENSAO)
 FROM tab_itinerario ti
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **E. Qual é a linha mais longa ?**
-
+```sql
 SELECT MAX (LIN_EXTENSAO)
 FROM tab_itinerario ti
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **F. Qual a média das extensões das linhas ?**
-
+```sql
 select AVG(lin_extensao)
 from dados_mobilidade.tab_itinerario
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **G. Quantas são as linhas circulares ?**
-
+```sql
 SELECT 
     COUNT(CASE WHEN lin_sentido ILIKE 'CIRCULAR' THEN 1 END) AS Total_Circular,
     COUNT(CASE WHEN lin_sentido ILIKE 'IDA' THEN 1 END) AS Total_Ida,
     COUNT(CASE WHEN lin_sentido ILIKE 'VOLTA' THEN 1 END) AS Total_Volta
 FROM dados_mobilidade.tab_itinerario ti ;
+```
                               --Ou
+```sql
 SELECT 
     COUNT(CASE WHEN tx_linha ILIKE '%Circular%' THEN 1 END) AS Total_Circular
 FROM tab_linha;
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **H. Qual a linha de sentido circular que é mais longa ?**
-
+```sql
 select 
 	lin_extensao,lin_sentido
 from 
@@ -86,21 +88,21 @@ from
 where ti.lin_sentido ilike 'CIRCULAR'
 order by ti.lin_extensao desc
 limit 1
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **I. Quais linhas tem tarifa de R$5,50 ?**
-
+```sql
 select
 	tx_linha,vl_tarifa
 from 
 	dados_mobilidade.tab_linha
 where vl_tarifa = 5.50
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **J. Quais linhas são operadas pela empresa piracicabana ?**
-
+```sql
 select
     tl.cd_linha,
 	tl.tx_linha,
@@ -117,11 +119,11 @@ join
 	dados_mobilidade.tab_operadora t
 	on tol.id_operadora = t.id_operadora
 where t.nm_operadora like ('%PIRACICABANA%')
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **K. Qual a média das extensões das linhas da empresa pioneira ?**
- 
+ ```sql
 SELECT
     AVG(ti.lin_extensao) AS media_geral_pioneira
 FROM
@@ -137,22 +139,22 @@ JOIN
     ON tol.id_operadora = t.id_operadora
 WHERE
     t.nm_operadora LIKE '%PIONEIRA%';
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **I. Quais linhas no nome tem 'Gama' ?**
-
+```sql
 SELECT 
     tx_linha
 FROM 
     dados_mobilidade.tab_linha
 WHERE 
     tx_linha ILIKE '%GAMA%';
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **M. Quais linhas são compartilhadas ?**
-
+```sql
 SELECT 
     tl.cd_linha, 
     tl.tx_linha, 
@@ -167,11 +169,11 @@ GROUP BY
     tl.tx_linha
 HAVING 
     COUNT(tol.id_operadora) > 1;
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **N. Qual o itinerário da linha 0.170 no sentido de ida e qual itinerário no sentido de volta ?**
-
+```sql
 select ti.geo_linhas_lin,
     tl.cd_linha,
     ti.lin_sentido,
@@ -185,11 +187,11 @@ WHERE
     tl.cd_linha = '0.170'
 ORDER BY 
     ti.lin_sentido;
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **O. Considerando apenas o texto do itinerário, quais linhas passam pelo eixo monumental ?**
-
+```sql
 SELECT 
     tl.cd_linha, 
     tl.tx_linha 
@@ -197,11 +199,11 @@ FROM
     dados_mobilidade.tab_linha tl
 WHERE
     tl.tx_linha ilike '%Eixo Monumental%';
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **P. Por quantos trechos do itinerário passa a linha 0.111 ?**
-
+```sql
 SELECT 
     tl.cd_linha, 
     tl.tx_linha,
@@ -210,7 +212,7 @@ FROM
     dados_mobilidade.tab_linha tl
 WHERE 
     tl.cd_linha = '0.111';
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **Q. Quais linhas serão ativadas nos próximos dias ?**
@@ -218,7 +220,7 @@ WHERE
 --------------------------------------------------------------------------------------------------------
 
 **R. Qual a tabela de horário de domingo da linha 0.763 ?**
-
+```sql
 select
 	tl.cd_linha,
 	th.hr_prevista,
@@ -233,11 +235,11 @@ join
 	on tol.id_linha = tl.id_linha
 where
 	tl.cd_linha = '0.763'
-	
+```	
 --------------------------------------------------------------------------------------------------------
 
 **S. Quantas viagens são programadas aos sábados para cada empresa ?**
-
+```sql
 select 
 	count(th.sabado),
 	t.nm_operadora
@@ -254,11 +256,11 @@ where
 group by
     th.sabado,
     t.nm_operadora
-	
+```	
 --------------------------------------------------------------------------------------------------------
 
 **T. Qual linha tem mais viagens programadas ?**
-
+```sql
    select
 	tvr.linha,
 	COUNT(tvr.viagem) as qtd
@@ -270,11 +272,11 @@ group by
 order by qtd desc
 limit 
 	1
-    
+```
 --------------------------------------------------------------------------------------------------------
 
 **U. Qual linhas tem duração de viagem mais longa ?**
-
+```sql
 select
 	tl.cd_linha,
 	max(th.tempo_percurso) as viagem_mais_longa
@@ -292,11 +294,11 @@ order by
 	viagem_mais_longa desc
 limit
 	1;
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **V. Quais linhas operam de madrugada (entre 00h 4h00) ?**
-
+```sql
 select
 	tl.cd_linha,
 	tl.tx_linha,
@@ -317,7 +319,7 @@ group by
 	th.hr_prevista
 order by
     th.hr_prevista desc
-
+```
 --------------------------------------------------------------------------------------------------------
 
 
@@ -338,7 +340,7 @@ order by
 --------------------------------------------------------------------------------------------------------
 
 **B. Quais paradas de ônibus que servem à linha 0.763, por sentido ?**
-
+```sql
 select 
     p.id AS parada_id, 
     p.cod_dftrans, 
@@ -357,11 +359,11 @@ WHERE
 ORDER BY 
     i.lin_sentido, 
     ST_LineLocatePoint(i.geo_linhas_lin, p.geom_parada);
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **C. Quais são as paradas de ônibus por região administrativa ?**
-
+```sql
 WITH ra_preparada AS (
     SELECT 
         dsc_regiao_administrativa,
@@ -381,9 +383,9 @@ GROUP BY
     ROLLUP(ra.dsc_regiao_administrativa)
 ORDER BY 
     total_paradas ASC;
-
+```
                        **OU**
-                       
+```sql      
 WITH ra_preparada AS (
     SELECT 
         dsc_regiao_administrativa,
@@ -403,7 +405,7 @@ GROUP BY
     ra.dsc_regiao_administrativa
 ORDER BY 
     total_paradas DESC;
-
+```
 --------------------------------------------------------------------------------------------------------
 
 **D. Quais linhas de ônibus passam por faixa exclusiva ?**
