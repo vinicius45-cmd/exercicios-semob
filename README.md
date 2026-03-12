@@ -385,7 +385,7 @@ ORDER BY
     total_paradas ASC;
 ```
 
-*OU**
+**OU**
 
 ```sql     
 WITH ra_preparada AS (
