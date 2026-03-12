@@ -384,8 +384,10 @@ GROUP BY
 ORDER BY 
     total_paradas ASC;
 ```
-                       **OU**
-```sql      
+
+*OU**
+
+```sql     
 WITH ra_preparada AS (
     SELECT 
         dsc_regiao_administrativa,
