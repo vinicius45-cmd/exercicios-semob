@@ -3,13 +3,13 @@
 
 
 **A. Liste as linhas de ônibus, com o nome e número da linha**
-
-'''select
+'''sql
+select
     tx_linha,
     cd_linha
 from 
-	dados_mobilidade.tab_linha'''
-
+	dados_mobilidade.tab_linha
+'''
 --------------------------------------------------------------------------------------------------------
 
 **B. Apresente apenas o nome, código da linha e extensão da 0.111**
