@@ -451,7 +451,7 @@ JOIN
     dados_mobilidade.camadas_espaciais."Faixas Exclusivas - DF" f 
     ON ST_DWithin(ST_Transform(i.geo_linhas_lin, 31983), ST_Transform(f.geom, 31983), 5)
 WHERE 
-    f.dsc_linha ILIKE '%W3 S%'
+    f.dsc_linha ILIKE '%W3%'
 ORDER BY 
     l.cd_linha;
 ```
