@@ -413,11 +413,48 @@ ORDER BY
 --------------------------------------------------------------------------------------------------------
 
 **D. Quais linhas de ônibus passam por faixa exclusiva ?**
-
+```sql
+SELECT 
+    l.cd_linha,
+    string_agg(DISTINCT f.dsc_linha, ', ') AS nomes_das_faixas,
+    i.geo_linhas_lin
+FROM 
+    dados_mobilidade.tab_linha l
+JOIN 
+    dados_mobilidade.tab_itinerario i ON l.id_linha = i.id_linha
+JOIN 
+    camadas_espaciais."Faixas Exclusivas - DF" f 
+    ON ST_DWithin(ST_Transform(i.geo_linhas_lin, 31983), ST_Transform(f.geom, 31983), 5)
+WHERE 
+    f.dsc_linha ILIKE '%FAIXA EXCLUSIVA%'
+GROUP BY 
+    l.id_linha, 
+    l.cd_linha,
+    i.geo_linhas_lin
+ORDER BY 
+    l.cd_linha ASC;
+```
 --------------------------------------------------------------------------------------------------------
 
 **E. Quais linhas de ônibus passam pela faixa exclusiva da W3 ?**
-
+```sql
+SELECT 
+    l.cd_linha,
+    f.dsc_linha AS nome_da_faixa,
+    i.geo_linhas_lin,
+    f.geom
+FROM 
+    dados_mobilidade.tab_linha l
+JOIN 
+    dados_mobilidade.tab_itinerario i ON l.id_linha = i.id_linha
+JOIN 
+    dados_mobilidade.camadas_espaciais."Faixas Exclusivas - DF" f 
+    ON ST_DWithin(ST_Transform(i.geo_linhas_lin, 31983), ST_Transform(f.geom, 31983), 5)
+WHERE 
+    f.dsc_linha ILIKE '%W3 S%'
+ORDER BY 
+    l.cd_linha;
+```
 --------------------------------------------------------------------------------------------------------
 
 **F. Quais veículos, entre 10h e 11h da manhã do último dia útil, operaram na linha 0.170 ?**
